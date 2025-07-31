@@ -4,9 +4,9 @@ const axios = require('axios');
 // PayHero API credentials from environment variables
 const API_USERNAME = process.env.PAYHERO_API_USERNAME;
 const API_PASSWORD = process.env.PAYHERO_API_PASSWORD;
-const CHANNEL_ID = 2852;
-const BANK_SHORT_CODE = 714777;
-const BANK_ACCOUNT_NUMBER = 440200149026;
+const CHANNEL_ID = process.env.PAYHERO_CHANNEL_ID;
+const BANK_SHORT_CODE = process.env.PAYHERO_BANK_SHORT_CODE;
+const BANK_ACCOUNT_NUMBER = process.env.PAYHERO_BANK_ACCOUNT_NUMBER;
 const BANK_DESCRIPTION = "KPLC Account Activation";
 
 // Generate Basic Auth Token
