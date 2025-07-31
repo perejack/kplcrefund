@@ -19,17 +19,13 @@ function countdownTimer(hours) {
   }
 }
 
-const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:8888/.netlify/functions' : '/.netlify/functions';
-
 function paymentForm() {
   return {
-    step: 'initial', // 'initial', 'checking', 'unregistered', 'registering', 'activation', 'submitting'
+    step: 'initial', // 'initial', 'checking', 'unregistered', 'registering', 'submitting'
     phone: '',
     name: '',
     email: '',
     loadingMessage: '',
-    activationStatus: 'Sending STK push to your phone...',
-    pollInterval: null,
 
     checkPhoneNumber() {
       if (!this.phone.match(/^07[0-9]{8}$/)) return;
@@ -48,54 +44,20 @@ function paymentForm() {
     },
 
     submitRegistration() {
+      // Basic validation
       if (!this.name || !this.email || !this.phone.match(/^07[0-9]{8}$/)) {
         alert('Please fill all fields correctly.');
         return;
       }
-      this.step = 'activation';
-      this.initiateStkPush();
-    },
-
-    async initiateStkPush() {
-      try {
-        const response = await fetch(`${API_BASE}/initiate-payment`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ phoneNumber: this.phone })
-        });
-        const data = await response.json();
-        if (data.success) {
-          this.activationStatus = 'STK push sent. Please check your phone.';
-          this.startPolling(data.data.externalReference);
-        } else {
-          this.activationStatus = data.message || 'Failed to initiate payment. Please try again.';
-        }
-      } catch (error) {
-        this.activationStatus = 'An error occurred. Please try again later.';
-      }
-    },
-
-    startPolling(reference) {
-      if (this.pollInterval) clearInterval(this.pollInterval);
-      this.pollInterval = setInterval(async () => {
-        try {
-          const response = await fetch(`${API_BASE}/payment-status/${reference}`);
-          const data = await response.json();
-          if (data.success && data.payment) {
-            if (data.payment.status === 'SUCCESS') {
-              clearInterval(this.pollInterval);
-              this.activationStatus = 'Payment successful! Redirecting...';
-              sessionStorage.setItem('mpesaPhone', this.phone);
-              window.location.href = 'confirmation.html';
-            } else if (data.payment.status === 'FAILED') {
-              clearInterval(this.pollInterval);
-              this.activationStatus = 'Payment failed. Please try again.';
-            }
-          }
-        } catch (error) {
-          // Don't stop polling on network error
-        }
-      }, 5000);
+      this.step = 'submitting';
+      this.loadingMessage = 'Registering your details...';
+      sessionStorage.setItem('mpesaPhone', this.phone);
+      setTimeout(() => {
+        this.loadingMessage = 'Finalizing...';
+        setTimeout(() => {
+          window.location.href = 'confirmation.html';
+        }, 1500);
+      }, 2000);
     }
   }
 }
