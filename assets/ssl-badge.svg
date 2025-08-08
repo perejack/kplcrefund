@@ -1,0 +1,6 @@
+<svg width="36" height="20" viewBox="0 0 36 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="1" y="1" width="34" height="18" rx="5" fill="#e0f7fa" stroke="#00b386" stroke-width="2"/>
+  <circle cx="8" cy="10" r="4" fill="#00b386"/>
+  <rect x="6" y="8" width="4" height="5" rx="1.5" fill="#fff"/>
+  <text x="14" y="15" font-size="9" fill="#003399" font-family="Poppins, Arial, sans-serif">SSL</text>
+</svg>
